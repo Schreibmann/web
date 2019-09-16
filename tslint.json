@@ -1,5 +1,7 @@
 {
-  "extends": ["tslint:latest"],
+  "extends": [
+    "tslint:latest"
+  ],
   "rules": {
     "quotemark": [true, "single"],
     "semicolon": [true, "never"],
@@ -10,6 +12,7 @@
     "no-submodule-imports": false,
     "no-implicit-dependencies": false,
     "interface-name": false,
-    "arrow-parens": [true, "ban-single-arg-parens"]
+    "arrow-parens": [true, "ban-single-arg-parens"],
+    "no-namespace": false
   }
 }

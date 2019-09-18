@@ -3,7 +3,7 @@ import { Input } from '@ui/input'
 import { Column, Layout, Row } from '@ui/layout'
 import { RouteLink } from '@ui/link'
 import { Text } from '@ui/text'
-import React from 'react'
+import React, { FC } from 'react'
 import { InjectedIntl, injectIntl } from 'react-intl'
 import messages from '../../messages'
 
@@ -24,7 +24,7 @@ interface Props {
   onRegister: () => void
 }
 
-const Registration = ({
+const Registration: FC<Props> = ({
   confirmPassword,
   email,
   errors,
@@ -61,7 +61,15 @@ const Registration = ({
         />
       </Layout>
     </Row>
-    <Layout basis={24} />
+    <Layout basis={24}>
+      { errors.email && <Row justify='center'>
+        <Layout basis={360} justify='center'>
+          <Text size='s' weight='normal' color='red'>
+            {errors.email}
+          </Text>
+        </Layout>
+      </Row> }
+    </Layout>
     <Row justify='center'>
       <Layout basis={360}>
         <Text size='s' weight='bold' transform='uppercase'>
@@ -97,7 +105,15 @@ const Registration = ({
         />
       </Layout>
     </Row>
-    <Layout basis={24} />
+    <Layout basis={24}>
+      { errors.password && <Row justify='center'>
+        <Layout basis={400} justify='center'>
+          <Text size='s' weight='normal' color='red'>
+            {errors.password}
+          </Text>
+        </Layout>
+      </Row> }
+    </Layout>
     <Row justify='center'>
       <Layout basis={360}>
         <Button

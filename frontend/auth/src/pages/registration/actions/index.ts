@@ -59,12 +59,18 @@ export const register = () => async (dispatch, getState, client) => {
       dispatch(clear())
     }
   } catch ({ graphQLErrors, networkError, message }) { // some error handling here
-    const errors = graphQLErrors.map(error => ({
-      error: error.message.error,
-      statusCode: error.message.statusCode,
-      messages: error.message.message.map(msg => Object.values(msg.constraints)).flat(),
-    }))
-    // tslint:disable-next-line:no-console
-    console.log(errors)
+      const errors = {}
+      graphQLErrors[0].message.message.forEach(entry => {
+          errors[entry.property] = Object.values(entry.constraints).join('\n')
+      })
+      dispatch(setErrors(errors))
+
+      const errorsInfo = graphQLErrors.map(error => ({
+        error: error.message.error,
+        statusCode: error.message.statusCode,
+        messages: error.message.message.map(msg => Object.values(msg.constraints)).flat(),
+      }))
+      // tslint:disable-next-line:no-console
+      console.log(errorsInfo)
   }
 }

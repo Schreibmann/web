@@ -7,8 +7,19 @@ import { Button } from '@ui/button'
 import { RouteLink } from '@ui/link'
 import messages from '../../messages'
 
+interface Errors {
+  email?: string,
+  password?: string
+}
+
 interface Props {
   intl: InjectedIntl
+  email: string
+  errors: Errors
+  password: string
+  onLogin: () => void
+  onChangeEmail: (value: string) => void
+  onChangePassword: (value: string) => void
 }
 
 const Login: FC<Props> = ({
@@ -19,7 +30,7 @@ const Login: FC<Props> = ({
   onChangeEmail,
   onChangePassword,
   onLogin,
-}) => (
+}: Props) => (
   <Column align='center'>
     <Layout basis={60} />
     <Text size='2xl' height='xs' weight='bold'>
@@ -39,14 +50,22 @@ const Login: FC<Props> = ({
         <Input
           type='email'
           border='lightGray'
-          error={errors.email}
+          error={!!errors.email}
           value={email}
           onChange={onChangeEmail}
           placeholder={intl.formatMessage(messages.enterEmail)}
         />
       </Layout>
     </Row>
-    <Layout basis={24} />
+    <Layout basis={24}>
+      { errors.email && <Row justify='center'>
+        <Layout basis={360} justify='center'>
+          <Text size='s' weight='normal' color='red'>
+            {errors.email}
+          </Text>
+        </Layout>
+      </Row> }
+    </Layout>
     <Row justify='center'>
       <Layout basis={360}>
         <Text size='s' weight='bold' transform='uppercase'>
@@ -60,7 +79,7 @@ const Login: FC<Props> = ({
         <Input
           type='password'
           border='lightGray'
-          error={errors.password}
+          error={!!errors.password}
           value={password}
           onEnter={onLogin}
           onChange={onChangePassword}
@@ -68,7 +87,15 @@ const Login: FC<Props> = ({
         />
       </Layout>
     </Row>
-    <Layout basis={24} />
+    <Layout basis={24}>
+      { errors.password && <Row justify='center'>
+        <Layout basis={360} justify='center'>
+          <Text size='s' weight='normal' color='red'>
+            {errors.password}
+          </Text>
+        </Layout>
+      </Row> }
+    </Layout>
     <Row justify='center'>
       <Layout basis={360}>
         <Button text disabled={!email || !password} onClick={onLogin}>

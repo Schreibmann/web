@@ -2,14 +2,7 @@ import gql from 'graphql-tag'
 import * as actions from '../constants/me'
 
 export const init = () => async (dispatch, getState, client) => {
-  const stub = {
-    id: 1,
-    email: 'crockford@lmao.com',
-    profile: {
-      firstName: 'Дуглас',
-      lastName: 'Крокфорд',
-    },
-  }
+
   try {
     const { data } = await client.query({
       fetchPolicy: 'network-only',
@@ -28,11 +21,17 @@ export const init = () => async (dispatch, getState, client) => {
         }
       `,
     })
-  } catch (e) {
+
+    const { me } = data
+
     dispatch({
       type: actions.load,
-      user: stub,
+      user: me,
     })
+  } catch (e) {
+    // some error handling here
+    // tslint:disable-next-line:no-console
+    console.log(e)
   }
 }
 

@@ -1,12 +1,13 @@
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { init } from '../actions/init'
+import { init, clear } from '../actions/init'
 
 class Preload extends Component {
   componentDidMount() {
-    const { token, onInit, onAuth, onMain } = this.props
+    const { token, onInit, onAuth, onMain, onClear } = this.props
 
     if (!!token) {
+      onClear()
       onInit()
     } else if (!/^\/auth/.test(window.location.pathname)) {
       onAuth()
@@ -42,6 +43,7 @@ export default connect(
     token: state.security.token,
   }),
   (dispatch, { history }) => ({
+    onClear: () => dispatch(clear()),
     onInit: () => dispatch(init()),
     onAuth: () => history.replace('/auth'),
     onMain: () => history.replace('/'),

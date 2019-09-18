@@ -16,6 +16,7 @@ export interface InputElementProps {
 export interface InputProps extends InputElementProps {
   id?: string
   type?: string
+  border?: string
   readOnly?: boolean
   placeholder?: string
   onChange?: (value: string) => void

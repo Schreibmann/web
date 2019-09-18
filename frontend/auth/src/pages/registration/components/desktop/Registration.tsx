@@ -1,14 +1,27 @@
-import React from 'react'
-import { injectIntl, InjectedIntl } from 'react-intl'
-import { Column, Layout, Row } from '@ui/layout'
-import { Text } from '@ui/text'
-import { Input } from '@ui/input'
 import { Button } from '@ui/button'
+import { Input } from '@ui/input'
+import { Column, Layout, Row } from '@ui/layout'
 import { RouteLink } from '@ui/link'
+import { Text } from '@ui/text'
+import React from 'react'
+import { InjectedIntl, injectIntl } from 'react-intl'
 import messages from '../../messages'
 
+interface Errors {
+  email?: string,
+  password?: string
+}
+
 interface Props {
-  intl: InjectedIntl
+  intl: InjectedIntl,
+  confirmPassword: string
+  email: string
+  errors: Errors
+  password: string
+  onChangeConfirmPassword: (value: string) => void
+  onChangeEmail: (value: string) => void
+  onChangePassword: (value: string) => void
+  onRegister: () => void
 }
 
 const Registration = ({
@@ -41,7 +54,7 @@ const Registration = ({
         <Input
           type='email'
           border='lightGray'
-          error={errors.email}
+          error={!!errors.email}
           value={email}
           onChange={onChangeEmail}
           placeholder={intl.formatMessage(messages.enterEmail)}
@@ -62,7 +75,7 @@ const Registration = ({
         <Input
           type='password'
           border='lightGray'
-          error={errors.password}
+          error={!!errors.password}
           value={password}
           onEnter={onRegister}
           onChange={onChangePassword}

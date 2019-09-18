@@ -1,7 +1,6 @@
-import gql from 'graphql-tag'
 import { auth } from '@frontend/common/src/constants/security'
+import gql from 'graphql-tag'
 import * as actions from '../constants'
-import stub from './stub'
 
 export const change = (field, value) => ({
   type: actions.change,
@@ -34,15 +33,26 @@ export const login = () => async (dispatch, getState, client) => {
         password,
       },
     })
-  } catch (e) {
-    dispatch({
-      type: auth,
-      token: stub.token,
-      expiresIn: stub.expiresIn,
-    })
 
-    dispatch({
-      type: actions.clear,
-    })
+    const { login: { errors, token } } = data
+
+    if (!errors && token) {
+      dispatch({
+        type: auth,
+        ...token,
+      })
+      dispatch({
+        type: actions.clear,
+      })
+    } else {
+      dispatch({
+        type: actions.setErrors,
+        errors,
+      })
+    }
+  } catch (e) {
+    // some error handling here
+    // tslint:disable-next-line:no-console
+    console.log(e)
   }
 }

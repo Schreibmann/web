@@ -1,17 +1,29 @@
 import gql from 'graphql-tag'
-import * as actions from '../constants'
+import { login } from '../../login/actions'
+import * as loginActions from '../../login/constants'
+import * as registrationActions from '../constants'
 
 export const change = (field, value) => ({
-  type: actions.change,
+  type: registrationActions.change,
   field,
   value,
 })
 
-export const register = () => async (dispatch, getState, client) => {
-  const { email, password } = getState().auth.registration
+export const setErrors = errors => ({
+  type: registrationActions.setErrors,
+  errors,
+})
 
-  const { data } = await client.mutate({
-    mutation: gql`
+export const clear = () => ({
+  type: registrationActions.clear,
+})
+
+export const register = () => async (dispatch, getState, client) => {
+  try {
+    const { email, password } = getState().auth.registration
+
+    const { data } = await client.mutate({
+      mutation: gql`
       mutation Register($input: RegisterUserInput!) {
         register(input: $input) {
           errors {
@@ -21,26 +33,38 @@ export const register = () => async (dispatch, getState, client) => {
         }
       }
     `,
-    variables: {
-      input: {
-        email,
-        password,
+      variables: {
+        input: {
+          email,
+          password,
+        },
       },
-    },
-  })
+    })
 
-  if (data.register.errors) {
-    dispatch({
-      type: actions.setErrors,
-      errors: data.register.errors,
-    })
-  } else {
-    dispatch({
-      type: actions.clear,
-    })
+    if (data.register.errors) {
+      const { errors } = data.register
+      dispatch(setErrors(errors))
+    } else {
+      dispatch({
+        type: loginActions.change,
+        field: 'email',
+        value: email,
+      })
+      dispatch({
+        type: loginActions.change,
+        field: 'password',
+        value: password,
+      })
+      dispatch(login())
+      dispatch(clear())
+    }
+  } catch ({ graphQLErrors, networkError, message }) { // some error handling here
+    const errors = graphQLErrors.map(error => ({
+      error: error.message.error,
+      statusCode: error.message.statusCode,
+      messages: error.message.message.map(msg => Object.values(msg.constraints)).flat(),
+    }))
+    // tslint:disable-next-line:no-console
+    console.log(errors)
   }
 }
-
-export const clear = () => ({
-  type: actions.clear,
-})

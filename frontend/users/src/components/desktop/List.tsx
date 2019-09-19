@@ -3,12 +3,22 @@ import { injectIntl, InjectedIntl } from 'react-intl'
 import { Column, Layout, Row } from '@ui/layout'
 import { Space, Text } from '@ui/text'
 import messages from '../../messages'
+import { Profile } from '@frontend/dashboard/src/containers/Preload'
 
-interface Props {
-  intl: InjectedIntl
+export interface User {
+  id: string
+  email: string
+  profile: Profile | null
+  registeredAt: string | null
+  lastLogonAt: string | null
 }
 
-const List = ({ rows, intl }: Props) => (
+interface ListProps {
+  intl: InjectedIntl
+  rows: [User]
+}
+
+const List = ({ rows, intl }: ListProps) => (
   <Column>
     <Layout basis={60} />
     <Row>
@@ -52,9 +62,9 @@ const List = ({ rows, intl }: Props) => (
           <Layout basis={8} />
           <Layout basis={280}>
             <Text size='s'>
-              {profile.firstName}
+              {profile && profile.firstName || 'unnamed'}
               <Space />
-              {profile.lastName}
+              {profile && profile.lastName || 'user'}
             </Text>
           </Layout>
           <Layout basis={12} />
@@ -63,15 +73,15 @@ const List = ({ rows, intl }: Props) => (
           </Layout>
           <Layout basis={12} />
           <Layout basis={168}>
-            <Text size='s'>{intl.formatDate(registeredAt)}</Text>
+            <Text size='s'>{registeredAt && intl.formatDate(registeredAt) || 'unknown'}</Text>
           </Layout>
           <Layout basis={12} />
           <Text size='s'>
-            {intl.formatDate(lastLogonAt)}
+            {lastLogonAt && intl.formatDate(lastLogonAt) || 'unknown'}
             <Space />
             {intl.formatMessage(messages.at)}
             <Space />
-            {intl.formatTime(lastLogonAt)}
+            {lastLogonAt && intl.formatTime(lastLogonAt) || 'unknown'}
           </Text>
           <Layout basis='10%' />
         </Row>

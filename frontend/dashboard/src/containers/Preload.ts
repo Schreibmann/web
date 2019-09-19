@@ -2,7 +2,7 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 import { init, clear } from '../actions/init'
 
-interface Profile {
+export interface Profile {
   firstName: string
   lastName: string
 }

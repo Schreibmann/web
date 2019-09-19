@@ -1,6 +1,5 @@
 import gql from 'graphql-tag'
 import * as actions from '../constants/list'
-import stub from './stub'
 
 export const load = () => async (dispatch, getState, client) => {
   try {
@@ -24,11 +23,14 @@ export const load = () => async (dispatch, getState, client) => {
         }
       `,
     })
-  } catch (e) {
     dispatch({
       type: actions.load,
-      list: stub,
+      list: data.users,
     })
+  } catch (e) {
+    // some error handling here
+    // tslint:disable-next-line:no-console
+    console.log(e)
   }
 }
 

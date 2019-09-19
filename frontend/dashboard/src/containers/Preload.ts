@@ -2,32 +2,52 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 import { init, clear } from '../actions/init'
 
-class Preload extends Component {
-  componentDidMount() {
-    const { token, onInit, onAuth, onMain, onClear } = this.props
+interface Profile {
+  firstName: string
+  lastName: string
+}
 
-    if (!!token) {
-      onClear()
-      onInit()
+interface PreloadProps {
+  token: string
+  profile: Profile | null
+  onInit: () => void
+  onAuth: () => void
+  onMain: () => void
+  onClear: () => void
+  onEditProfile: () => void
+}
+
+class Preload extends Component<PreloadProps> {
+  componentDidMount() {
+    const { token, profile, onInit, onAuth, onMain, onClear, onEditProfile }: PreloadProps = this.props
+
+    if (!!token && !!profile) {
+      onMain()
+    } else if (!!token && !profile) {
+      onEditProfile()
     } else if (!/^\/auth/.test(window.location.pathname)) {
       onAuth()
     }
 
     if (token && /^\/auth/.test(window.location.pathname)) {
-      onMain()
+      onInit()
     }
   }
 
-  componentDidUpdate(prevProps) {
-    const { token, onMain, onInit, onAuth } = this.props
-
-    if (!prevProps.token && token) {
-      onMain()
-      onInit()
-    }
+  componentDidUpdate(prevProps: PreloadProps) {
+    const { token, profile, onMain, onInit, onAuth, onEditProfile } = this.props
 
     if (prevProps.token && !token) {
       onAuth()
+    }
+
+    if (!prevProps.token && token && !profile) {
+      onInit()
+      onEditProfile()
+    }
+
+    if ((!prevProps.token && token && profile) || (token && prevProps.profile !== profile)) {
+      onMain()
     }
   }
 
@@ -41,11 +61,13 @@ class Preload extends Component {
 export default connect(
   state => ({
     token: state.security.token,
+    profile: state.me.profile,
   }),
   (dispatch, { history }) => ({
     onClear: () => dispatch(clear()),
     onInit: () => dispatch(init()),
     onAuth: () => history.replace('/auth'),
-    onMain: () => history.replace('/'),
-  })
+    onMain: () => history.replace('/users'),
+    onEditProfile: () => history.replace('/profile'),
+  }),
 )(Preload)

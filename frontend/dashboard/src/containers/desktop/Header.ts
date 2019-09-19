@@ -1,6 +1,8 @@
 import { connect } from 'react-redux'
 import { logout } from '@frontend/common/src/actions/security'
-import { clear } from '../../actions/init'
+import { clear as userClear } from '@frontend/dashboard/src/constants/me'
+import { clear as profileClear } from '@frontend/profile/src/constants'
+import { clear as loginClear } from '@frontend/auth/src/pages/login/constants'
 import Header from '../../components/desktop/Header'
 
 export default connect(
@@ -12,8 +14,16 @@ export default connect(
   })},
   dispatch => ({
     onLogout: () => {
+      dispatch({
+        type: userClear,
+      })
+      dispatch({
+        type: profileClear,
+      })
+      dispatch({
+        type: loginClear,
+      })
       dispatch(logout())
-      dispatch(clear())
     },
   }),
 )(Header)

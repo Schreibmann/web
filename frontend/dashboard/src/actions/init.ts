@@ -1,5 +1,6 @@
 import gql from 'graphql-tag'
-import * as actions from '../constants/me'
+import * as userActions from '../constants/me'
+import { change } from '@frontend/profile/src/constants'
 
 export const init = () => async (dispatch, getState, client) => {
 
@@ -25,9 +26,22 @@ export const init = () => async (dispatch, getState, client) => {
     const { me } = data
 
     dispatch({
-      type: actions.load,
+      type: userActions.load,
       user: me,
     })
+
+    dispatch({
+      type: change,
+      field: 'firstName',
+      value: me.profile.firstName,
+    })
+
+    dispatch({
+      type: change,
+      field: 'lastName',
+      value: me.profile.lastName,
+    })
+
   } catch (e) {
     // some error handling here
     // tslint:disable-next-line:no-console
@@ -36,5 +50,5 @@ export const init = () => async (dispatch, getState, client) => {
 }
 
 export const clear = () => ({
-  type: actions.clear,
+  type: userActions.clear,
 })

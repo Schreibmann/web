@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { lifecycle } from 'recompose'
-import { load } from '../../actions/list'
+import { load, sort } from '../../actions/list'
 import List from '../../components/desktop/List'
 
 const enhance = lifecycle({
@@ -15,5 +15,6 @@ export default connect(
   }),
   dispatch => ({
     onLoad: () => dispatch(load()),
-  })
+    onSelect: ({ value }) => dispatch(sort(value)),
+  }),
 )(enhance(List))

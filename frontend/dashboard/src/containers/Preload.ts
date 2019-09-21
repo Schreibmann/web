@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { init, clear } from '../actions/init'
+import { init } from '../actions/init'
 
 export interface Profile {
   firstName: string
@@ -8,45 +8,39 @@ export interface Profile {
 }
 
 interface PreloadProps {
+  userId: any
   token: string
   profile: Profile | null
   onInit: () => void
   onAuth: () => void
   onMain: () => void
-  onClear: () => void
   onEditProfile: () => void
 }
 
 class Preload extends Component<PreloadProps> {
   componentDidMount() {
-    const { token, profile, onInit, onAuth, onMain, onClear, onEditProfile }: PreloadProps = this.props
+    const { token, onInit, onAuth, onMain }: PreloadProps = this.props
 
-    if (!!token && !!profile) {
-      onMain()
-    } else if (!!token && !profile) {
-      onEditProfile()
-    } else if (!/^\/auth/.test(window.location.pathname)) {
+    if (!token && !/^\/auth/.test(window.location.pathname)) {
       onAuth()
-    }
-
-    if (token && /^\/auth/.test(window.location.pathname)) {
+    } else if (token && /^\/auth/.test(window.location.pathname)) {
       onInit()
+    } else if (token) {
+      onMain()
     }
   }
 
   componentDidUpdate(prevProps: PreloadProps) {
-    const { token, profile, onMain, onInit, onAuth, onEditProfile } = this.props
+    const { userId, token, onMain, onInit, onAuth, profile, onEditProfile } = this.props
 
-    if (prevProps.token && !token) {
+    if (prevProps.token && prevProps.profile && !token) {
       onAuth()
-    }
-
-    if (!prevProps.token && token && !profile) {
+    } else if ((!prevProps.token && token) || (token && !profile)) {
       onInit()
-      onEditProfile()
     }
-
-    if ((!prevProps.token && token && profile) || (token && prevProps.profile !== profile)) {
+    if (userId && token && !profile) {
+      onEditProfile()
+    } else if (token && profile) {
       onMain()
     }
   }
@@ -60,11 +54,11 @@ class Preload extends Component<PreloadProps> {
 
 export default connect(
   state => ({
+    userId: state.me.id,
     token: state.security.token,
     profile: state.me.profile,
   }),
   (dispatch, { history }) => ({
-    onClear: () => dispatch(clear()),
     onInit: () => dispatch(init()),
     onAuth: () => history.replace('/auth'),
     onMain: () => history.replace('/users'),

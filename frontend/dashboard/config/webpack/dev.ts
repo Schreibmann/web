@@ -72,6 +72,7 @@ export const module = {
 
 export const resolve = {
   extensions: ['.ts', '.tsx', '.js', '.json'],
+  alias: { 'react-dom': '@hot-loader/react-dom'  }
 }
 
 export const plugins = [

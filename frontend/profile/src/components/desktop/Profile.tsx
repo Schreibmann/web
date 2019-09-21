@@ -25,7 +25,7 @@ const ProfileDesktop: FC<Props> = ({
 }: Props) => (
   <Column align='center'>
     <Layout basis={60} />
-    <Text size='2xl' height='xs' weight='bold'>
+    <Text size='l' height='xs' weight='bold'>
       {intl.formatMessage(messages.editProfile)}
     </Text>
     <Layout basis={40} />

@@ -7,6 +7,6 @@ const initialState = {
 }
 
 export default createReducer(initialState, {
-  [actions.load]: (state, { list }) => ({ ...state, ...list }),
+  [actions.load]: (state, { list }) => ({ ...list }),
   [actions.clear]: () => initialState,
 })

@@ -41,9 +41,6 @@ export const login = () => async (dispatch, getState, client) => {
         type: auth,
         ...token,
       })
-      dispatch({
-        type: actions.clear,
-      })
     } else {
       dispatch({
         type: actions.setErrors,

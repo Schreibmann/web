@@ -3,6 +3,10 @@ import { defineMessages } from 'react-intl'
 export const namespace = '@aunited/users'
 
 export default defineMessages({
+  sort: {
+    id: `${namespace}.sortBy`,
+    defaultMessage: 'Сортировать по',
+  },
   users: {
     id: `${namespace}.users`,
     defaultMessage: 'Пользователи',

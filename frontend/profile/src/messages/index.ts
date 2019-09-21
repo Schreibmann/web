@@ -13,7 +13,7 @@ export default defineMessages({
   },
   enterFirstName: {
     id: `${namespace}.enter_firstName`,
-    defaultMessage: 'Введите ваше имя',
+    defaultMessage: 'Имя',
   },
   lastName: {
     id: `${namespace}.lastName`,

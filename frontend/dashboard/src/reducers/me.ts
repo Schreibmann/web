@@ -1,4 +1,6 @@
 import { createReducer } from '@utils/reducer'
+import { persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 import * as actions from '../constants/me'
 
 interface Profile {
@@ -20,7 +22,17 @@ const initialState = {
   profile: null,
 }
 
-export default createReducer(initialState, {
+const reducer = createReducer(initialState, {
   [actions.load]: (state: User, { user }) => ({ ...state, ...user }),
   [actions.clear]: () => initialState,
 })
+
+export default persistReducer(
+  {
+    storage,
+    key: 'user',
+    keyPrefix: 'aunited',
+    version: 1,
+  },
+  reducer
+)

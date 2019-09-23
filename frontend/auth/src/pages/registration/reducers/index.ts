@@ -29,6 +29,14 @@ export default createReducer(initialState, {
       [field]: '',
     },
   }),
-  [actions.setErrors]: (state, { errors }) => ({ ...state, errors }),
+  [actions.setErrors]: (state, { errors }) => {
+    if (errors.hasOwnProperty(0)) {
+      const _errors = {}
+      errors[0].message.message.forEach(entry => {
+        _errors[entry.property] = Object.values(entry.constraints).join('\n')
+      })
+      return ({ ...state, errors: _errors })
+    } else return ({ ...state, errors })
+  },
   [actions.clear]: () => initialState,
 })

@@ -1,5 +1,6 @@
 import gql from 'graphql-tag'
 import { login } from '../../login/actions'
+import { setEditing } from '@frontend/profile/src/actions'
 import * as loginActions from '../../login/constants'
 import * as registrationActions from '../constants'
 
@@ -56,19 +57,9 @@ export const register = () => async (dispatch, getState, client) => {
         value: password,
       })
       dispatch(login())
-      dispatch(clear())
+      dispatch(setEditing(true))
     }
-  } catch ({ graphQLErrors, networkError, message }) { // some error handling here
-      const errors = {}
-      graphQLErrors[0].message.message.forEach(entry => {
-          errors[entry.property] = Object.values(entry.constraints).join('\n')
-      })
-      dispatch(setErrors(errors))
-
-      const errorsInfo = graphQLErrors.map(error => ({
-        error: error.message.error,
-        statusCode: error.message.statusCode,
-        messages: error.message.message.map(msg => Object.values(msg.constraints)).flat(),
-      }))
+  } catch ({ graphQLErrors }) {
+      dispatch(setErrors(graphQLErrors))
   }
 }

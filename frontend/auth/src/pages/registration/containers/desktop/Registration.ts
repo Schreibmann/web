@@ -13,7 +13,6 @@ export default connect(
     onRegister: () => dispatch(register()),
     onChangeEmail: value => dispatch(change('email', value)),
     onChangePassword: value => dispatch(change('password', value)),
-    onChangeConfirmPassword: value =>
-      dispatch(change('confirmPassword', value)),
+    onChangeConfirmPassword: value => dispatch(change('confirmPassword', value)),
   })
 )(Registration)

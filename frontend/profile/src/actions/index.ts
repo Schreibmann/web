@@ -8,6 +8,11 @@ export const change = (field, value) => ({
   value,
 })
 
+export const setEditing = isEditing => ({
+  type: profileActions.setEditing,
+  isEditing,
+})
+
 export const updateProfile = () => async (dispatch, getState, client) => {
   try {
     const { firstName, lastName } = getState().profile
@@ -31,6 +36,9 @@ export const updateProfile = () => async (dispatch, getState, client) => {
       },
     })
 
-    if (!data.updateProfile.errors) dispatch(init())
+    if (!data.updateProfile.errors) {
+      dispatch(setEditing(false))
+      dispatch(init())
+    }
   } catch ({ graphQLErrors, networkError, message }) {}
 }

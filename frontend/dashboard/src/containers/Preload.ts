@@ -14,7 +14,6 @@ interface PreloadProps {
   onInit: () => void
   onAuth: () => void
   onMain: () => void
-  onEditProfile: () => void
 }
 
 class Preload extends Component<PreloadProps> {
@@ -31,16 +30,14 @@ class Preload extends Component<PreloadProps> {
   }
 
   componentDidUpdate(prevProps: PreloadProps) {
-    const { userId, token, onMain, onInit, onAuth, profile, onEditProfile } = this.props
+    const { token, onMain, onInit, onAuth, profile } = this.props
 
     if (prevProps.token && prevProps.profile && !token) {
       onAuth()
     } else if ((!prevProps.token && token) || (token && !profile)) {
       onInit()
     }
-    if (userId && token && !profile) {
-      onEditProfile()
-    } else if (token && profile) {
+    if (token) {
       onMain()
     }
   }
@@ -54,7 +51,6 @@ class Preload extends Component<PreloadProps> {
 
 export default connect(
   state => ({
-    userId: state.me.id,
     token: state.security.token,
     profile: state.me.profile,
   }),
@@ -62,6 +58,5 @@ export default connect(
     onInit: () => dispatch(init()),
     onAuth: () => history.replace('/auth'),
     onMain: () => history.replace('/users'),
-    onEditProfile: () => history.replace('/profile'),
   }),
 )(Preload)

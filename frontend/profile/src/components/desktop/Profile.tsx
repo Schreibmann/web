@@ -17,6 +17,7 @@ interface Props {
 
 const ProfileDesktop: FC<Props> = ({
   intl,
+  profile,
   firstName,
   lastName,
   onUpdate,
@@ -72,7 +73,13 @@ const ProfileDesktop: FC<Props> = ({
     <Layout basis={24} />
     <Row justify='center'>
       <Layout basis={360}>
-        <Button text disabled={firstName === '' || lastName === ''} onClick={onUpdate}>
+        <Button
+          text
+          disabled={
+            firstName.length < 2 || lastName.length < 2 ||
+            profile && (firstName === profile.firstName && lastName === profile.lastName)
+          }
+          onClick={onUpdate}>
           {intl.formatMessage(messages.update)}
         </Button>
       </Layout>

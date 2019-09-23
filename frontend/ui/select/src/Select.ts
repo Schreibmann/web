@@ -53,7 +53,7 @@ const Select = ({
     createElement(
       SelectElement,
       {
-      styles: { // override ugly basic styles here
+      styles: {
         control: basic => ({
           ...basic,
           boxShadow: 'none',

@@ -4,8 +4,8 @@ import { createReducer } from '@utils/reducer'
 import * as actions from '../constants/security'
 
 const initialState = {
-  token: '',
-  expiresIn: '',
+  token: null,
+  expiresIn: null,
 }
 
 const reducer = createReducer(initialState, {

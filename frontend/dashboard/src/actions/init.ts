@@ -42,11 +42,7 @@ export const init = () => async (dispatch, getState, client) => {
       value: me.profile.lastName,
     })
 
-  } catch (e) {
-    // some error handling here
-    // tslint:disable-next-line:no-console
-    console.log(e)
-  }
+  } catch (e) {}
 }
 
 export const clear = () => ({

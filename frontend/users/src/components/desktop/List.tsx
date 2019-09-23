@@ -4,7 +4,7 @@ import { Select } from '@ui/select'
 import { Text } from '@ui/text'
 import React, { FC } from 'react'
 import { InjectedIntl, injectIntl } from 'react-intl'
-import { OptionsProps } from '../../../../ui/select/src/Select'
+import { OptionsProps } from '@ui/select/src/Select'
 import messages from '../../messages'
 import ListRow from './ListRow'
 
@@ -42,13 +42,18 @@ const List: FC<ListProps> = ({ rows, intl, onSelect }: ListProps) => {
 
   return  (
     <Column>
+      <Layout basis={20} />
+      <Row>
+      <Layout basis='10%' />
       <Select
         isSearchable={false}
         onChange={handleChange}
         options={selectOptions}
         placeholder={intl.formatMessage(messages.sort)}
       />
-      <Layout basis={60} />
+      <Layout basis='10%' />
+      </Row>
+      <Layout basis={20} />
       <Row>
         <Layout basis='10%' />
         <Text weight='medium' size='l'>
@@ -65,17 +70,17 @@ const List: FC<ListProps> = ({ rows, intl, onSelect }: ListProps) => {
             {intl.formatMessage(messages.name)}
           </Text>
         </Layout>
-        <Layout basis={200}>
+        <Layout basis={250}>
           <Text size='s' weight='bold' transform='uppercase'>
             {intl.formatMessage(messages.email)}
           </Text>
         </Layout>
-        <Layout basis={180}>
+        <Layout basis={200}>
           <Text size='s' weight='bold' transform='uppercase'>
             {intl.formatMessage(messages.registered)}
           </Text>
         </Layout>
-        <Layout basis={160}>
+        <Layout basis={200}>
           <Text size='s' weight='bold' transform='uppercase'>
             {intl.formatMessage(messages.lastLogin)}
           </Text>
@@ -84,6 +89,7 @@ const List: FC<ListProps> = ({ rows, intl, onSelect }: ListProps) => {
       </Row>
       <Layout basis={8} />
       {rows.map(row => <ListRow key={row.id} intl={intl} {...row} />)}
+      <Layout basis={20} />
     </Column>
   )
 }

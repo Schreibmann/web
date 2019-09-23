@@ -6,7 +6,7 @@ import Header from '../../components/desktop/Header'
 
 export default connect(
   state => {
-    const { profile } = state.me // to prevent crash if profile = null
+    const { profile } = state.me
     return ({
       firstName: profile ? profile.firstName : 'nameless',
       lastName: profile ? profile.lastName : 'user',

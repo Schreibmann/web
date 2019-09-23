@@ -47,9 +47,5 @@ export const login = () => async (dispatch, getState, client) => {
         errors,
       })
     }
-  } catch (e) {
-    // some error handling here
-    // tslint:disable-next-line:no-console
-    console.log(e)
-  }
+  } catch (e) {}
 }

@@ -18,7 +18,7 @@ const Header = ({ firstName, lastName, intl, onLogout }: Props) => (
     <Layout basis='10%' />
     <RouteLink to='/profile' color='ebony' hoverColor='lightGray'>
       {firstName}
-      <Space />
+      <Space count={3}/>
       {lastName}
     </RouteLink>
     <Layout grow={1} />

@@ -70,7 +70,5 @@ export const register = () => async (dispatch, getState, client) => {
         statusCode: error.message.statusCode,
         messages: error.message.message.map(msg => Object.values(msg.constraints)).flat(),
       }))
-      // tslint:disable-next-line:no-console
-      console.log(errorsInfo)
   }
 }

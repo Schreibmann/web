@@ -35,7 +35,7 @@ const SelectElement = styled(ReactSelect, {
     boxSizing: 'border-box',
     borderRadius: `${theme.borderRadius.n}px`,
     outline: 'none',
-    backgroundColor: theme.colors.white,
+    backgroundColor: 'none',
     border: `1px solid ${theme.colors[borderColor]}`,
     boxShadow: '0 2px 4px 0 rgba(41, 50, 70, 0.1)',
     transition: '100ms ease all',
@@ -44,20 +44,6 @@ const SelectElement = styled(ReactSelect, {
     fontWeight: theme.fontWeights.normal,
     lineHeight: theme.lineHeights.s,
     color: theme.colors[color],
-    [':hover']: {
-      boxShadow: 'none',
-      borderColor: `${theme.colors.lightGray}`,
-      backgroundColor: `${theme.colors.webWhite}`,
-    },
-    [':focus']: {
-      boxShadow: 'none',
-      borderColor: `${theme.colors.lightGray}`,
-      backgroundColor: `${theme.colors.webWhite}`,
-    },
-    [':active']: {
-      borderColor: `${theme.colors.lightGray}`,
-      backgroundColor: `${theme.colors.white}`,
-    },
   }),
 )
 

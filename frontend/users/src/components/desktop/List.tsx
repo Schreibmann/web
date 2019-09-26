@@ -88,7 +88,7 @@ const List: FC<ListProps> = ({ rows, intl, onSelect }: ListProps) => {
         <Layout basis='10%' />
       </Row>
       <Layout basis={8} />
-      {rows.map(row => <ListRow key={row.id} intl={intl} {...row} />)}
+      {rows.map(row => <ListRow key={row.id} {...row} />)}
       <Layout basis={20} />
     </Column>
   )

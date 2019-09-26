@@ -25,8 +25,10 @@ const initialState = {
 const reducer = createReducer(initialState, {
   [actions.load]: (state: User, { user }) => {
     if (user.profile === null) {
-      user.profile.firstName = 'nameless'
-      user.profile.lastName = 'user'
+      user.profile = {
+        firstName: 'new',
+        lastName: 'user',
+      }
     }
     return ({ ...state, ...user })
   },

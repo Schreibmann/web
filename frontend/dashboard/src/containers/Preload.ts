@@ -32,13 +32,17 @@ class Preload extends Component<PreloadProps> {
   componentDidUpdate(prevProps: PreloadProps) {
     const { token, onMain, onInit, onAuth, profile } = this.props
 
-    if (prevProps.token && prevProps.profile && !token) {
-      onAuth()
-    } else if ((!prevProps.token && token) || (token && !profile)) {
+    if (!prevProps.token && token) {
       onInit()
-    }
-    if (token) {
       onMain()
+    }
+
+    if (prevProps.profile && profile) {
+      onMain()
+    }
+
+    if (prevProps.token && !token) {
+      onAuth()
     }
   }
 
